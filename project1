@@ -1,0 +1,1464 @@
+Download Dataset 1 - https://drive.google.com/file/d/1WrG-9qv6atP-W3P_-gYln1hHyFKRKMHP/view
+
+Download Dataset 2 - https://drive.google.com/file/d/1-JIPCZ34dyN6k9CqJa-Y8yxIGq6vTVXU/view
+
+Note: both files are csv files. 
+
+1. Create a schema based on the given dataset
+ describe  agentlogging;
+OK
+slno                    int
+agent                   string
+date                    string
+logintine               string
+logouttime              string
+duration                string
+Time taken: 0.197 seconds, Fetched: 6 row(s)
+hive> describe  agentperfomance;
+OK
+slno                    int
+date                    string
+agentname               string
+totalchat               string
+averageresponsetime     string
+averageresolutiontime   string
+averagerating           float
+totalfeedback           int
+Time taken: 0.138 seconds, Fetched: 8 row(s)
+hive> describe  agentperfomancetemp;
+OK
+slno                    string
+date                    date
+agentname               string
+totalchat               int
+averageresponsetime     timestamp
+averageresolutiontime   timestamp
+averagerating           float
+totalfeedback           int
+Time taken: 0.242 seconds, Fetched: 8 row(s)
+hive> describe  agentloggingtemp;
+OK
+agent                   string
+logintime               timestamp
+logouttime              timestamp
+duration                timestamp
+ldate                   date
+
+2. Dump the data inside the hdfs in the given schema location.
+load data local inpath 'file:///home/cloudera/revanth/AgentLogingReport.csv' into table agentlogging;
+load data local inpath 'file:///home/cloudera/revanth/AgentPerfomance.csv' into table agentperfomance;
+3. List of all agents' names.
+solution : select distinct AgentName from agentperfomance
+output:Abhishek
+Aditya
+Aditya Shinde
+Aditya_iot
+Amersh
+Ameya Jain
+Anirudh
+Ankit Sharma
+Ankitjha
+Anurag Tiwari
+Aravind
+Ashad Nasim
+Ashish
+Ayushi Mishra
+Bharath
+Boktiar Ahmed Bappy
+Chaitra K Hiremath
+Deepranjan Gupta
+Dibyanshu
+Harikrishnan Shaji
+Hitesh Choudhary
+Hrisikesh Neogi
+Hyder Abbas
+Ineuron Intelligence
+Ishawant Kumar
+Jawala Prakash
+Jayant Kumar
+Jaydeep Dixit
+Khushboo Priya
+Madhulika G
+Mahak
+Mahesh Sarade
+Maitry
+Maneesh
+Manjunatha A
+Mithun S
+Mukesh
+Mukesh Rao
+Muskan Garg
+Nandani Gupta
+Nishtha Jain
+Nitin M
+Prabir Kumar Satapathy
+Prateek _iot
+Prerna Singh
+Rishav Dash
+Rohan
+Saif Khan
+Saikumarreddy N
+Samprit
+Sandipan Saha
+Sanjeev Kumar
+Sanjeevan
+Saurabh Shukla
+Shiva Srivastava
+Shivan K
+Shivan_S
+Shivananda Sonwane
+Shubham Sharma
+Sowmiya Sivakumar
+Spuri
+Sudhanshu Kumar
+Suraj S Bilgi
+Swati
+Tarun
+Uday Mishra
+Vasanth P
+Vivek
+Wasim
+Zeeshan
+
+
+4. Find out agent average rating.
+solution: select AgentName,avg(Averagerating) from agentperfomance group by agentname;
+op:Abhishek        0.0
+Aditya  0.0
+Aditya Shinde   1.8003333409627278
+Aditya_iot      2.3453333377838135
+Amersh  0.0
+Ameya Jain      2.21966667175293
+Anirudh         0.6449999968210857
+Ankit Sharma    0.0
+Ankitjha        0.26666666666666666
+Anurag Tiwari   0.18333333333333332
+Aravind         2.1813333511352537
+Ashad Nasim     0.16666666666666666
+Ashish  0.0
+Ayushi Mishra   3.481999969482422
+Bharath         2.9836666584014893
+Boktiar Ahmed Bappy     3.567999982833862
+Chaitra K Hiremath      0.8646666606267294
+Deepranjan Gupta        2.886666695276896
+Dibyanshu       0.0
+Harikrishnan Shaji      2.6396666526794434
+Hitesh Choudhary        0.0
+Hrisikesh Neogi 3.1363333304723104
+Hyder Abbas     0.0
+Ineuron Intelligence    0.0
+Ishawant Kumar  3.543333347638448
+Jawala Prakash  3.472000018755595
+Jayant Kumar    1.068666664759318
+Jaydeep Dixit   3.1670000314712525
+Khushboo Priya  3.703666663169861
+Madhulika G     3.4986666520436605
+Mahak   0.1
+Mahesh Sarade   2.4003333330154417
+Maitry  2.9270000139872234
+Maneesh         0.16666666666666666
+Manjunatha A    3.5946666876475017
+Mithun S        2.359000023206075
+Mukesh  0.3096666653951009
+Mukesh Rao      0.25566666523615517
+Muskan Garg     0.712333329518636
+Nandani Gupta   2.9236666679382326
+Nishtha Jain    3.282333334287008
+Nitin M 0.0
+Prabir Kumar Satapathy  2.5103333314259846
+Prateek _iot    2.4383333206176756
+Prerna Singh    3.2326666434605915
+Rishav Dash     1.4268333355585734
+Rohan   0.0
+Saif Khan       0.0
+Saikumarreddy N 1.9803333441416422
+Samprit         0.0
+Sandipan Saha   0.4289999961853027
+Sanjeev Kumar   3.3830000241597493
+Sanjeevan       0.0
+Saurabh Shukla  0.5556666692097981
+Shiva Srivastava        0.9446666717529297
+Shivan K        2.841333341598511
+Shivan_S        0.14166666666666666
+Shivananda Sonwane      4.232666659355163
+Shubham Sharma  3.2253333568572997
+Sowmiya Sivakumar       1.2599999984105428
+Spuri   0.0
+Sudhanshu Kumar 0.3333333333333333
+Suraj S Bilgi   0.31200000445048015
+Swati   2.4236666917800904
+Tarun   0.05
+Uday Mishra     0.0
+Vasanth P       0.0
+Vivek   0.5006666660308838
+Wasim   2.400000015894572
+Zeeshan         2.286999988555908
+
+5. Total working days for each agents
+
+select agent,count(distinct ldate) from agentloggingtemp group by agent;
+
+Aditya Shinde   1
+Aditya_iot      8
+Agent   0
+Amersh  2
+Ameya Jain      7
+Ankitjha        2
+Anurag Tiwari   10
+Aravind 7
+Ayushi Mishra   9
+Bharath 8
+Boktiar Ahmed Bappy     9
+Chaitra K Hiremath      7
+Deepranjan Gupta        10
+Dibyanshu       9
+Harikrishnan Shaji      9
+Hrisikesh Neogi 9
+Hyder Abbas     2
+Ineuron Intelligence    1
+Ishawant Kumar  11
+Jawala Prakash  9
+Jaydeep Dixit   7
+Khushboo Priya  8
+Madhulika G     8
+Mahesh Sarade   8
+Maitry  5
+Manjunatha A    7
+Mithun S        8
+Mukesh  2
+Muskan Garg     6
+Nandani Gupta   9
+Nishtha Jain    8
+Nitin M 1
+Prabir Kumar Satapathy  7
+Prateek _iot    11
+Prerna Singh    9
+Rishav Dash     7
+Saikumarreddy N 7
+Sanjeev Kumar   9
+Saurabh Shukla  4
+Shiva Srivastava        8
+Shivan K        8
+Shivananda Sonwane      10
+Shubham Sharma  11
+Sowmiya Sivakumar       8
+Sudhanshu Kumar 6
+Suraj S Bilgi   2
+Swati   4
+Tarun   1
+Wasim   9
+Zeeshan 9
+
+
+
+6. Total query that each agent have taken 
+solution: select agentname,sum(totalchat) from agentperfomance group by agentname
+output:Abhishek        0.0
+Aditya  0.0
+Aditya Shinde   277.0
+Aditya_iot      231.0
+Amersh  0.0
+Ameya Jain      322.0
+Anirudh         81.0
+Ankit Sharma    0.0
+Ankitjha        5.0
+Anurag Tiwari   4.0
+Aravind         366.0
+Ashad Nasim     18.0
+Ashish  0.0
+Ayushi Mishra   514.0
+Bharath         369.0
+Boktiar Ahmed Bappy     452.0
+Chaitra K Hiremath      64.0
+Deepranjan Gupta        493.0
+Dibyanshu       1.0
+Harikrishnan Shaji      381.0
+Hitesh Choudhary        1.0
+Hrisikesh Neogi 578.0
+Hyder Abbas     0.0
+Ineuron Intelligence    0.0
+Ishawant Kumar  338.0
+Jawala Prakash  439.0
+Jayant Kumar    127.0
+Jaydeep Dixit   512.0
+Khushboo Priya  446.0
+Madhulika G     469.0
+Mahak   7.0
+Mahesh Sarade   364.0
+Maitry  542.0
+Maneesh         4.0
+Manjunatha A    413.0
+Mithun S        503.0
+Mukesh  19.0
+Mukesh Rao      5.0
+Muskan Garg     56.0
+Nandani Gupta   560.0
+Nishtha Jain    373.0
+Nitin M 0.0
+Prabir Kumar Satapathy  299.0
+Prateek _iot    190.0
+Prerna Singh    401.0
+Rishav Dash     409.0
+Rohan   0.0
+Saif Khan       0.0
+Saikumarreddy N 364.0
+Samprit         1.0
+Sandipan Saha   30.0
+Sanjeev Kumar   507.0
+Sanjeevan       0.0
+Saurabh Shukla  16.0
+Shiva Srivastava        53.0
+Shivan K        357.0
+Shivan_S        7.0
+Shivananda Sonwane      441.0
+Shubham Sharma  510.0
+Sowmiya Sivakumar       206.0
+Spuri   0.0
+Sudhanshu Kumar 2.0
+Suraj S Bilgi   28.0
+Swati   524.0
+Tarun   22.0
+Uday Mishra     0.0
+Vasanth P       0.0
+Vivek   44.0
+Wasim   433.0
+Zeeshan         542.0
+
+
+
+7. Total Feedback that each agent have received 
+solution:select agentname,sum(totalfeedback) from agentperfomance group by agentname;
+output:Abhishek        0
+Aditya  0
+Aditya Shinde   153
+Aditya_iot      131
+Amersh  0
+Ameya Jain      228
+Anirudh         39
+Ankit Sharma    0
+Ankitjha        3
+Anurag Tiwari   3
+Aravind         233
+Ashad Nasim     9
+Ashish  0
+Ayushi Mishra   329
+Bharath         247
+Boktiar Ahmed Bappy     311
+Chaitra K Hiremath      37
+Deepranjan Gupta        312
+Dibyanshu       0
+Harikrishnan Shaji      231
+Hitesh Choudhary        0
+Hrisikesh Neogi 367
+Hyder Abbas     0
+Ineuron Intelligence    0
+Ishawant Kumar  202
+Jawala Prakash  250
+Jayant Kumar    70
+Jaydeep Dixit   305
+Khushboo Priya  289
+Madhulika G     281
+Mahak   5
+Mahesh Sarade   216
+Maitry  347
+Maneesh         3
+Manjunatha A    254
+Mithun S        364
+Mukesh  17
+Mukesh Rao      5
+Muskan Garg     37
+Nandani Gupta   308
+Nishtha Jain    257
+Nitin M 0
+Prabir Kumar Satapathy  222
+Prateek _iot    107
+Prerna Singh    235
+Rishav Dash     264
+Rohan   0
+Saif Khan       0
+Saikumarreddy N 290
+Samprit         0
+Sandipan Saha   18
+Sanjeev Kumar   311
+Sanjeevan       0
+Saurabh Shukla  8
+Shiva Srivastava        46
+Shivan K        243
+Shivan_S        4
+Shivananda Sonwane      263
+Shubham Sharma  300
+Sowmiya Sivakumar       141
+Spuri   0
+Sudhanshu Kumar 2
+Suraj S Bilgi   15
+Swati   302
+Tarun   6
+Uday Mishra     0
+Vasanth P       0
+Vivek   20
+Wasim   284
+Zeeshan         335
+
+8. Agent name who have average rating between 3.5 to 4 
+solution  select agentname,avg(averagerating) from  agentperfomance group by agentname having avg(averagerating)> 3.5 and avg(averagerating)< 4 ;
+op:
+Boktiar Ahmed Bappy     3.567999982833862
+Ishawant Kumar  3.543333347638448
+Khushboo Priya  3.703666663169861
+Manjunatha A    3.5946666876475017
+
+9. Agent name who have rating less than 3.5 
+solution:select agentname,avg(averagerating) from  agentperfomance group by agentname having avg(averagerating)<3.5 ;
+output:Abhishek        0.0
+Aditya  0.0
+Aditya Shinde   1.8003333409627278
+Aditya_iot      2.3453333377838135
+Amersh  0.0
+Ameya Jain      2.21966667175293
+Anirudh         0.6449999968210857
+Ankit Sharma    0.0
+Ankitjha        0.26666666666666666
+Anurag Tiwari   0.18333333333333332
+Aravind         2.1813333511352537
+Ashad Nasim     0.16666666666666666
+Ashish  0.0
+Ayushi Mishra   3.481999969482422
+Bharath         2.9836666584014893
+Chaitra K Hiremath      0.8646666606267294
+Deepranjan Gupta        2.886666695276896
+Dibyanshu       0.0
+Harikrishnan Shaji      2.6396666526794434
+Hitesh Choudhary        0.0
+Hrisikesh Neogi 3.1363333304723104
+Hyder Abbas     0.0
+Ineuron Intelligence    0.0
+Jawala Prakash  3.472000018755595
+Jayant Kumar    1.068666664759318
+Jaydeep Dixit   3.1670000314712525
+Madhulika G     3.4986666520436605
+Mahak   0.1
+Mahesh Sarade   2.4003333330154417
+Maitry  2.9270000139872234
+Maneesh         0.16666666666666666
+Mithun S        2.359000023206075
+Mukesh  0.3096666653951009
+Mukesh Rao      0.25566666523615517
+Muskan Garg     0.712333329518636
+Nandani Gupta   2.9236666679382326
+Nishtha Jain    3.282333334287008
+Nitin M 0.0
+Prabir Kumar Satapathy  2.5103333314259846
+Prateek _iot    2.4383333206176756
+Prerna Singh    3.2326666434605915
+Rishav Dash     1.4268333355585734
+Rohan   0.0
+Saif Khan       0.0
+Saikumarreddy N 1.9803333441416422
+Samprit         0.0
+Sandipan Saha   0.4289999961853027
+Sanjeev Kumar   3.3830000241597493
+Sanjeevan       0.0
+Saurabh Shukla  0.5556666692097981
+Shiva Srivastava        0.9446666717529297
+Shivan K        2.841333341598511
+Shivan_S        0.14166666666666666
+Shubham Sharma  3.2253333568572997
+Sowmiya Sivakumar       1.2599999984105428
+Spuri   0.0
+Sudhanshu Kumar 0.3333333333333333
+Suraj S Bilgi   0.31200000445048015
+Swati   2.4236666917800904
+Tarun   0.05
+Uday Mishra     0.0
+Vasanth P       0.0
+Vivek   0.5006666660308838
+Wasim   2.400000015894572
+Zeeshan         2.286999988555908
+
+
+10. Agent name who have rating more than 4.5 
+SOL:select agentname from agentperfomance  where averagerating > 4.5 group by agentname;
+op:Aditya Shinde
+Aditya_iot
+Ameya Jain
+Anirudh
+Ankitjha
+Aravind
+Ayushi Mishra
+Bharath
+Boktiar Ahmed Bappy
+Chaitra K Hiremath
+Deepranjan Gupta
+Harikrishnan Shaji
+Hrisikesh Neogi
+Ishawant Kumar
+Jawala Prakash
+Jayant Kumar
+Jaydeep Dixit
+Khushboo Priya
+Madhulika G
+Mahesh Sarade
+Maitry
+Manjunatha A
+Mithun S
+Mukesh
+Mukesh Rao
+Muskan Garg
+Nandani Gupta
+Nishtha Jain
+Prabir Kumar Satapathy
+Prateek _iot
+Prerna Singh
+Rishav Dash
+Saikumarreddy N
+Sandipan Saha
+Sanjeev Kumar
+Saurabh Shukla
+Shiva Srivastava
+Shivan K
+Shivananda Sonwane
+Shubham Sharma
+Sowmiya Sivakumar
+Sudhanshu Kumar
+Suraj S Bilgi
+Swati
+Vivek
+Wasim
+Zeeshan
+
+11. How many feedback agents have received more than 4.5 average
+solution:select agentname,sum(totalfeedback) from agentperfomance  where averagerating > 4.5 group by agentname;
+Aditya Shinde   73
+Aditya_iot      43
+Ameya Jain      150
+Anirudh         2
+Ankitjha        1
+Aravind         178
+Ayushi Mishra   75
+Bharath         231
+Boktiar Ahmed Bappy     52
+Chaitra K Hiremath      5
+Deepranjan Gupta        83
+Harikrishnan Shaji      80
+Hrisikesh Neogi 183
+Ishawant Kumar  79
+Jawala Prakash  33
+Jayant Kumar    7
+Jaydeep Dixit   179
+Khushboo Priya  134
+Madhulika G     67
+Mahesh Sarade   46
+Maitry  81
+Manjunatha A    132
+Mithun S        93
+Mukesh  17
+Mukesh Rao      1
+Muskan Garg     14
+Nandani Gupta   91
+Nishtha Jain    18
+Prabir Kumar Satapathy  53
+Prateek _iot    54
+Prerna Singh    82
+Rishav Dash     27
+Saikumarreddy N 184
+Sandipan Saha   1
+Sanjeev Kumar   164
+Saurabh Shukla  3
+Shiva Srivastava        2
+Shivan K        130
+Shivananda Sonwane      154
+Shubham Sharma  155
+Sowmiya Sivakumar       16
+Sudhanshu Kumar 2
+Suraj S Bilgi   4
+Swati   103
+Vivek   3
+Wasim   156
+Zeeshan         48
+
+
+12. average weekly response time for each agent 
+ select agentname,weekofyear(date),from_unixtime(cast(avg(unix_timestamp(averageresponsetime,'HH:mm:ss'))as bigint),'HH:mm:ss') from agentperfomancetemp group by agentname,weekofyear(date);
+
+Abhishek        26      00:00:00
+Abhishek        27      00:00:00
+Abhishek        28      00:00:00
+Abhishek        29      00:00:00
+Abhishek        30      00:00:00
+Aditya  26      00:00:00
+Aditya  27      00:00:00
+Aditya  28      00:00:00
+Aditya  29      00:00:00
+Aditya  30      00:00:00
+Aditya Shinde   26      00:00:55
+Aditya Shinde   27      00:00:47
+Aditya Shinde   28      00:00:56
+Aditya Shinde   29      00:00:00
+Aditya Shinde   30      00:00:00
+Aditya_iot      26      00:00:00
+Aditya_iot      27      00:00:20
+Aditya_iot      28      00:00:52
+Aditya_iot      29      00:00:30
+Aditya_iot      30      00:00:50
+Amersh  26      00:00:00
+Amersh  27      00:00:00
+Amersh  28      00:00:00
+Amersh  29      00:00:00
+Amersh  30      00:00:00
+Ameya Jain      26      00:00:00
+Ameya Jain      27      00:00:00
+Ameya Jain      28      00:00:32
+Ameya Jain      29      00:00:29
+Ameya Jain      30      00:00:33
+Anirudh         26      00:00:00
+Anirudh         27      00:01:17
+Anirudh         28      00:00:15
+Anirudh         29      00:00:00
+Anirudh         30      00:00:00
+Ankit Sharma    26      00:00:00
+Ankit Sharma    27      00:00:00
+Ankit Sharma    28      00:00:00
+Ankit Sharma    29      00:00:00
+Ankit Sharma    30      00:00:00
+Ankitjha        26      00:00:00
+Ankitjha        27      00:00:00
+Ankitjha        28      00:00:00
+Ankitjha        29      00:00:00
+Ankitjha        30      00:00:22
+Anurag Tiwari   26      00:00:00
+Anurag Tiwari   27      00:00:36
+Anurag Tiwari   28      00:00:00
+Anurag Tiwari   29      00:00:00
+Anurag Tiwari   30      00:00:00
+Aravind         26      00:00:00
+Aravind         27      00:00:21
+Aravind         28      00:00:34
+Aravind         29      00:00:36
+Aravind         30      00:00:00
+Ashad Nasim     26      00:00:00
+Ashad Nasim     27      00:02:45
+Ashad Nasim     28      00:00:00
+Ashad Nasim     29      00:00:00
+Ashad Nasim     30      00:00:00
+Ashish  26      00:00:00
+Ashish  27      00:00:00
+Ashish  28      00:00:00
+Ashish  29      00:00:00
+Ashish  30      00:00:00
+Ayushi Mishra   26      00:00:57
+Ayushi Mishra   27      00:00:50
+Ayushi Mishra   28      00:00:48
+Ayushi Mishra   29      00:01:25
+Ayushi Mishra   30      00:00:58
+Bharath         26      00:00:28
+Bharath         27      00:00:24
+Bharath         28      00:00:14
+Bharath         29      00:00:45
+Bharath         30      00:00:22
+Boktiar Ahmed Bappy     26      00:01:00
+Boktiar Ahmed Bappy     27      00:00:42
+Boktiar Ahmed Bappy     28      00:00:59
+Boktiar Ahmed Bappy     29      00:01:06
+Boktiar Ahmed Bappy     30      00:01:43
+Chaitra K Hiremath      26      00:00:00
+Chaitra K Hiremath      27      00:00:00
+Chaitra K Hiremath      28      00:00:00
+Chaitra K Hiremath      29      00:00:32
+Chaitra K Hiremath      30      00:00:37
+Deepranjan Gupta        26      00:00:44
+Deepranjan Gupta        27      00:00:59
+Deepranjan Gupta        28      00:00:44
+Deepranjan Gupta        29      00:00:46
+Deepranjan Gupta        30      00:01:09
+Dibyanshu       26      00:00:00
+Dibyanshu       27      00:00:05
+Dibyanshu       28      00:00:00
+Dibyanshu       29      00:00:00
+Dibyanshu       30      00:00:00
+Harikrishnan Shaji      26      00:00:00
+Harikrishnan Shaji      27      00:00:27
+Harikrishnan Shaji      28      00:00:39
+Harikrishnan Shaji      29      00:00:48
+Harikrishnan Shaji      30      00:00:34
+Hitesh Choudhary        26      00:00:00
+Hitesh Choudhary        27      00:00:00
+Hitesh Choudhary        28      00:00:00
+Hitesh Choudhary        29      00:00:00
+Hitesh Choudhary        30      00:00:00
+Hrisikesh Neogi 26      00:00:37
+Hrisikesh Neogi 27      00:00:46
+Hrisikesh Neogi 28      00:00:45
+Hrisikesh Neogi 29      00:00:58
+Hrisikesh Neogi 30      00:00:59
+Hyder Abbas     26      00:00:00
+Hyder Abbas     27      00:00:00
+Hyder Abbas     28      00:00:00
+Hyder Abbas     29      00:00:00
+Hyder Abbas     30      00:00:00
+Ineuron Intelligence    26      00:00:00
+Ineuron Intelligence    27      00:00:00
+Ineuron Intelligence    28      00:00:00
+Ineuron Intelligence    29      00:00:00
+Ineuron Intelligence    30      00:00:00
+Ishawant Kumar  26      00:00:00
+Ishawant Kumar  27      00:00:39
+Ishawant Kumar  28      00:01:05
+Ishawant Kumar  29      00:01:02
+Ishawant Kumar  30      00:00:55
+Jawala Prakash  26      00:00:55
+Jawala Prakash  27      00:01:50
+Jawala Prakash  28      00:01:56
+Jawala Prakash  29      00:01:13
+Jawala Prakash  30      00:01:33
+Jayant Kumar    26      00:01:03
+Jayant Kumar    27      00:00:39
+Jayant Kumar    28      00:00:12
+Jayant Kumar    29      00:00:00
+Jayant Kumar    30      00:00:00
+Jaydeep Dixit   26      00:00:39
+Jaydeep Dixit   27      00:00:51
+Jaydeep Dixit   28      00:00:46
+Jaydeep Dixit   29      00:00:43
+Jaydeep Dixit   30      00:00:37
+Khushboo Priya  26      00:01:20
+Khushboo Priya  27      00:01:10
+Khushboo Priya  28      00:00:58
+Khushboo Priya  29      00:00:51
+Khushboo Priya  30      00:00:56
+Madhulika G     26      00:01:34
+Madhulika G     27      00:01:00
+Madhulika G     28      00:01:21
+Madhulika G     29      00:00:49
+Madhulika G     30      00:01:02
+Mahak   26      00:00:00
+Mahak   27      00:00:00
+Mahak   28      00:00:00
+Mahak   29      00:00:00
+Mahak   30      00:00:00
+Mahesh Sarade   26      00:00:00
+Mahesh Sarade   27      00:00:38
+Mahesh Sarade   28      00:00:55
+Mahesh Sarade   29      00:00:59
+Mahesh Sarade   30      00:00:53
+Maitry  26      00:00:41
+Maitry  27      00:00:48
+Maitry  28      00:01:14
+Maitry  29      00:01:10
+Maitry  30      00:01:12
+Maneesh         26      00:00:00
+Maneesh         27      00:00:19
+Maneesh         28      00:00:00
+Maneesh         29      00:00:00
+Maneesh         30      00:00:00
+Manjunatha A    26      00:00:42
+Manjunatha A    27      00:00:42
+Manjunatha A    28      00:00:33
+Manjunatha A    29      00:00:32
+Manjunatha A    30      00:00:33
+Mithun S        26      00:00:00
+Mithun S        27      00:00:02
+Mithun S        28      00:00:43
+Mithun S        29      00:00:44
+Mithun S        30      00:00:38
+Mukesh  26      00:00:00
+Mukesh  27      00:00:00
+Mukesh  28      00:00:00
+Mukesh  29      00:00:00
+Mukesh  30      00:00:16
+Mukesh Rao      26      00:00:00
+Mukesh Rao      27      00:00:56
+Mukesh Rao      28      00:00:00
+Mukesh Rao      29      00:00:00
+Mukesh Rao      30      00:00:00
+Muskan Garg     26      00:00:00
+Muskan Garg     27      00:00:00
+Muskan Garg     28      00:00:00
+Muskan Garg     29      00:00:00
+Muskan Garg     30      00:00:29
+Nandani Gupta   26      00:01:48
+Nandani Gupta   27      00:00:57
+Nandani Gupta   28      00:00:50
+Nandani Gupta   29      00:00:57
+Nandani Gupta   30      00:00:51
+Nishtha Jain    26      00:00:00
+Nishtha Jain    27      00:01:12
+Nishtha Jain    28      00:01:00
+Nishtha Jain    29      00:01:28
+Nishtha Jain    30      00:00:45
+Nitin M 26      00:00:00
+Nitin M 27      00:00:00
+Nitin M 28      00:00:00
+Nitin M 29      00:00:00
+Nitin M 30      00:00:00
+Prabir Kumar Satapathy  26      00:00:00
+Prabir Kumar Satapathy  27      00:01:00
+Prabir Kumar Satapathy  28      00:00:34
+Prabir Kumar Satapathy  29      00:00:39
+Prabir Kumar Satapathy  30      00:00:32
+Prateek _iot    26      00:00:00
+Prateek _iot    27      00:00:09
+Prateek _iot    28      00:00:21
+Prateek _iot    29      00:00:32
+Prateek _iot    30      00:00:37
+Prerna Singh    26      00:01:04
+Prerna Singh    27      00:00:49
+Prerna Singh    28      00:00:41
+Prerna Singh    29      00:00:43
+Prerna Singh    30      00:00:49
+Rishav Dash     26      00:00:45
+Rishav Dash     27      00:00:30
+Rishav Dash     28      00:00:23
+Rishav Dash     29      00:00:25
+Rishav Dash     30      00:00:35
+Rohan   26      00:00:00
+Rohan   27      00:00:00
+Rohan   28      00:00:00
+Rohan   29      00:00:00
+Rohan   30      00:00:00
+Saif Khan       26      00:00:00
+Saif Khan       27      00:00:00
+Saif Khan       28      00:00:00
+Saif Khan       29      00:00:00
+Saif Khan       30      00:00:00
+Saikumarreddy N 26      00:00:00
+Saikumarreddy N 27      00:00:00
+Saikumarreddy N 28      00:00:22
+Saikumarreddy N 29      00:00:51
+Saikumarreddy N 30      00:00:40
+Samprit         26      00:00:00
+Samprit         27      00:00:00
+Samprit         28      00:00:00
+Samprit         29      00:00:00
+Samprit         30      00:00:00
+Sandipan Saha   26      00:00:00
+Sandipan Saha   27      00:00:00
+Sandipan Saha   28      00:00:25
+Sandipan Saha   29      00:00:00
+Sandipan Saha   30      00:00:00
+Sanjeev Kumar   26      00:01:16
+Sanjeev Kumar   27      00:00:39
+Sanjeev Kumar   28      00:01:10
+Sanjeev Kumar   29      00:00:41
+Sanjeev Kumar   30      00:00:42
+Sanjeevan       26      00:00:00
+Sanjeevan       27      00:00:00
+Sanjeevan       28      00:00:00
+Sanjeevan       29      00:00:00
+Sanjeevan       30      00:00:00
+Saurabh Shukla  26      00:00:07
+Saurabh Shukla  27      00:00:10
+Saurabh Shukla  28      00:00:02
+Saurabh Shukla  29      00:00:00
+Saurabh Shukla  30      00:00:00
+Shiva Srivastava        26      00:00:00
+Shiva Srivastava        27      00:00:00
+Shiva Srivastava        28      00:00:00
+Shiva Srivastava        29      00:00:23
+Shiva Srivastava        30      00:00:22
+Shivan K        26      00:00:56
+Shivan K        27      00:00:52
+Shivan K        28      00:00:29
+Shivan K        29      00:01:07
+Shivan K        30      00:00:37
+Shivan_S        26      00:00:00
+Shivan_S        27      00:00:10
+Shivan_S        28      00:00:00
+Shivan_S        29      00:00:00
+Shivan_S        30      00:00:00
+Shivananda Sonwane      26      00:01:17
+Shivananda Sonwane      27      00:00:52
+Shivananda Sonwane      28      00:00:49
+Shivananda Sonwane      29      00:00:59
+Shivananda Sonwane      30      00:00:53
+Shubham Sharma  26      00:00:54
+Shubham Sharma  27      00:00:41
+Shubham Sharma  28      00:00:36
+Shubham Sharma  29      00:00:51
+Shubham Sharma  30      00:01:03
+Sowmiya Sivakumar       26      00:00:00
+Sowmiya Sivakumar       27      00:00:00
+Sowmiya Sivakumar       28      00:00:00
+Sowmiya Sivakumar       29      00:01:00
+Sowmiya Sivakumar       30      00:01:00
+Spuri   26      00:00:00
+Spuri   27      00:00:00
+Spuri   28      00:00:00
+Spuri   29      00:00:00
+Spuri   30      00:00:00
+Sudhanshu Kumar 26      00:00:00
+Sudhanshu Kumar 27      00:00:06
+Sudhanshu Kumar 28      00:00:10
+Sudhanshu Kumar 29      00:00:00
+Sudhanshu Kumar 30      00:00:00
+Suraj S Bilgi   26      00:00:00
+Suraj S Bilgi   27      00:00:00
+Suraj S Bilgi   28      00:00:00
+Suraj S Bilgi   29      00:00:00
+Suraj S Bilgi   30      00:00:30
+Swati   26      00:01:47
+Swati   27      00:01:09
+Swati   28      00:01:17
+Swati   29      00:00:30
+Swati   30      00:00:29
+Tarun   26      00:00:00
+Tarun   27      00:00:00
+Tarun   28      00:00:00
+Tarun   29      00:00:00
+Tarun   30      00:00:00
+Uday Mishra     26      00:00:00
+Uday Mishra     27      00:00:00
+Uday Mishra     28      00:00:00
+Uday Mishra     29      00:00:00
+Uday Mishra     30      00:00:00
+Vasanth P       26      00:00:00
+Vasanth P       27      00:00:00
+Vasanth P       28      00:00:00
+Vasanth P       29      00:00:00
+Vasanth P       30      00:00:00
+Vivek   26      00:00:00
+Vivek   27      00:00:15
+Vivek   28      00:00:43
+Vivek   29      00:00:00
+Vivek   30      00:00:00
+Wasim   26      00:00:00
+Wasim   27      00:00:08
+Wasim   28      00:00:29
+Wasim   29      00:00:46
+Wasim   30      00:00:50
+Zeeshan         26      00:00:00
+Zeeshan         27      00:00:23
+Zeeshan         28      00:02:03
+Zeeshan         29      00:01:02
+Zeeshan         30      00:01:03
+
+
+13. average weekly resolution time for each agents
+ select agentname,weekofyear(date),from_unixtime(cast(avg(unix_timestamp(averageresolutiontime,'HH:mm:ss'))as bigint),'HH:mm:ss') from agentperfomancetemp group by agentname,weekofyear(date);
+
+Abhishek        26      00:00:00
+Abhishek        27      00:00:00
+Abhishek        28      00:00:00
+Abhishek        29      00:00:00
+Abhishek        30      00:00:00
+Aditya  26      00:00:00
+Aditya  27      00:00:00
+Aditya  28      00:00:00
+Aditya  29      00:00:00
+Aditya  30      00:00:00
+Aditya Shinde   26      00:15:27
+Aditya Shinde   27      00:15:03
+Aditya Shinde   28      00:22:38
+Aditya Shinde   29      00:00:00
+Aditya Shinde   30      00:00:00
+Aditya_iot      26      00:00:00
+Aditya_iot      27      00:05:09
+Aditya_iot      28      00:15:11
+Aditya_iot      29      00:11:12
+Aditya_iot      30      00:12:18
+Amersh  26      00:00:00
+Amersh  27      00:00:00
+Amersh  28      00:00:00
+Amersh  29      00:00:00
+Amersh  30      00:00:00
+Ameya Jain      26      00:00:00
+Ameya Jain      27      00:00:15
+Ameya Jain      28      00:08:03
+Ameya Jain      29      00:08:17
+Ameya Jain      30      00:07:59
+Anirudh         26      00:00:00
+Anirudh         27      00:08:07
+Anirudh         28      00:05:07
+Anirudh         29      00:00:00
+Anirudh         30      00:00:00
+Ankit Sharma    26      00:00:00
+Ankit Sharma    27      00:00:00
+Ankit Sharma    28      00:00:00
+Ankit Sharma    29      00:00:00
+Ankit Sharma    30      00:00:00
+Ankitjha        26      00:00:00
+Ankitjha        27      00:03:03
+Ankitjha        28      00:00:00
+Ankitjha        29      00:00:00
+Ankitjha        30      00:00:58
+Anurag Tiwari   26      00:00:00
+Anurag Tiwari   27      00:05:16
+Anurag Tiwari   28      00:00:00
+Anurag Tiwari   29      00:00:00
+Anurag Tiwari   30      00:00:00
+Aravind         26      00:00:00
+Aravind         27      00:10:22
+Aravind         28      00:14:25
+Aravind         29      00:13:27
+Aravind         30      00:00:00
+Ashad Nasim     26      00:00:00
+Ashad Nasim     27      00:01:29
+Ashad Nasim     28      00:00:00
+Ashad Nasim     29      00:00:00
+Ashad Nasim     30      00:00:00
+Ashish  26      00:00:00
+Ashish  27      00:00:00
+Ashish  28      00:00:00
+Ashish  29      00:00:00
+Ashish  30      00:00:00
+Ayushi Mishra   26      00:17:01
+Ayushi Mishra   27      00:12:23
+Ayushi Mishra   28      00:14:36
+Ayushi Mishra   29      00:18:27
+Ayushi Mishra   30      00:15:20
+Bharath         26      00:06:28
+Bharath         27      00:12:21
+Bharath         28      00:07:21
+Bharath         29      00:09:24
+Bharath         30      00:16:44
+Boktiar Ahmed Bappy     26      00:15:00
+Boktiar Ahmed Bappy     27      00:33:08
+Boktiar Ahmed Bappy     28      00:06:48
+Boktiar Ahmed Bappy     29      00:11:35
+Boktiar Ahmed Bappy     30      00:17:41
+Chaitra K Hiremath      26      00:00:00
+Chaitra K Hiremath      27      00:00:00
+Chaitra K Hiremath      28      00:00:00
+Chaitra K Hiremath      29      00:00:42
+Chaitra K Hiremath      30      00:06:35
+Deepranjan Gupta        26      00:20:08
+Deepranjan Gupta        27      00:25:48
+Deepranjan Gupta        28      00:16:32
+Deepranjan Gupta        29      00:22:00
+Deepranjan Gupta        30      00:19:08
+Dibyanshu       26      00:00:00
+Dibyanshu       27      00:01:45
+Dibyanshu       28      00:00:00
+Dibyanshu       29      00:00:00
+Dibyanshu       30      00:00:00
+Harikrishnan Shaji      26      00:00:00
+Harikrishnan Shaji      27      00:05:59
+Harikrishnan Shaji      28      00:12:42
+Harikrishnan Shaji      29      00:17:50
+Harikrishnan Shaji      30      00:13:54
+Hitesh Choudhary        26      00:00:00
+Hitesh Choudhary        27      00:00:00
+Hitesh Choudhary        28      00:00:12
+Hitesh Choudhary        29      00:00:00
+Hitesh Choudhary        30      00:00:00
+Hrisikesh Neogi 26      00:13:25
+Hrisikesh Neogi 27      00:14:13
+Hrisikesh Neogi 28      00:12:27
+Hrisikesh Neogi 29      00:18:50
+Hrisikesh Neogi 30      00:17:22
+Hyder Abbas     26      00:00:00
+Hyder Abbas     27      00:00:00
+Hyder Abbas     28      00:00:00
+Hyder Abbas     29      00:00:00
+Hyder Abbas     30      00:00:00
+Ineuron Intelligence    26      00:00:00
+Ineuron Intelligence    27      00:00:00
+Ineuron Intelligence    28      00:00:00
+Ineuron Intelligence    29      00:00:00
+Ineuron Intelligence    30      00:00:00
+Ishawant Kumar  26      00:00:00
+Ishawant Kumar  27      00:14:11
+Ishawant Kumar  28      00:13:14
+Ishawant Kumar  29      00:17:59
+Ishawant Kumar  30      00:19:05
+Jawala Prakash  26      00:10:57
+Jawala Prakash  27      00:07:57
+Jawala Prakash  28      00:14:34
+Jawala Prakash  29      00:14:58
+Jawala Prakash  30      00:15:47
+Jayant Kumar    26      00:12:43
+Jayant Kumar    27      00:14:00
+Jayant Kumar    28      00:01:36
+Jayant Kumar    29      00:00:00
+Jayant Kumar    30      00:00:00
+Jaydeep Dixit   26      00:13:06
+Jaydeep Dixit   27      00:18:10
+Jaydeep Dixit   28      00:19:11
+Jaydeep Dixit   29      00:21:22
+Jaydeep Dixit   30      00:15:01
+Khushboo Priya  26      00:18:26
+Khushboo Priya  27      00:23:55
+Khushboo Priya  28      00:15:54
+Khushboo Priya  29      00:12:35
+Khushboo Priya  30      00:13:20
+Madhulika G     26      00:12:55
+Madhulika G     27      00:14:33
+Madhulika G     28      00:16:27
+Madhulika G     29      00:12:33
+Madhulika G     30      00:20:24
+Mahak   26      00:00:00
+Mahak   27      00:02:52
+Mahak   28      00:00:00
+Mahak   29      00:00:00
+Mahak   30      00:00:00
+Mahesh Sarade   26      00:00:00
+Mahesh Sarade   27      00:06:02
+Mahesh Sarade   28      00:10:15
+Mahesh Sarade   29      00:13:06
+Mahesh Sarade   30      00:11:28
+Maitry  26      00:10:59
+Maitry  27      00:11:19
+Maitry  28      00:13:57
+Maitry  29      00:16:59
+Maitry  30      00:09:07
+Maneesh         26      00:00:00
+Maneesh         27      00:02:58
+Maneesh         28      00:00:00
+Maneesh         29      00:00:00
+Maneesh         30      00:00:00
+Manjunatha A    26      00:17:50
+Manjunatha A    27      00:20:05
+Manjunatha A    28      00:16:09
+Manjunatha A    29      00:10:55
+Manjunatha A    30      00:20:51
+Mithun S        26      00:00:00
+Mithun S        27      00:03:29
+Mithun S        28      00:05:47
+Mithun S        29      00:07:36
+Mithun S        30      00:09:12
+Mukesh  26      00:00:00
+Mukesh  27      00:00:00
+Mukesh  28      00:00:00
+Mukesh  29      00:00:00
+Mukesh  30      00:06:19
+Mukesh Rao      26      00:00:00
+Mukesh Rao      27      00:32:53
+Mukesh Rao      28      00:00:00
+Mukesh Rao      29      00:00:00
+Mukesh Rao      30      00:00:00
+Muskan Garg     26      00:00:00
+Muskan Garg     27      00:00:00
+Muskan Garg     28      00:00:00
+Muskan Garg     29      00:00:00
+Muskan Garg     30      00:09:36
+Nandani Gupta   26      00:17:30
+Nandani Gupta   27      00:16:42
+Nandani Gupta   28      00:17:01
+Nandani Gupta   29      00:18:31
+Nandani Gupta   30      00:21:05
+Nishtha Jain    26      00:00:00
+Nishtha Jain    27      00:11:52
+Nishtha Jain    28      00:10:58
+Nishtha Jain    29      00:08:36
+Nishtha Jain    30      00:09:50
+Nitin M 26      00:00:00
+Nitin M 27      00:00:00
+Nitin M 28      00:00:00
+Nitin M 29      00:00:00
+Nitin M 30      00:00:00
+Prabir Kumar Satapathy  26      00:00:00
+Prabir Kumar Satapathy  27      00:05:14
+Prabir Kumar Satapathy  28      00:08:20
+Prabir Kumar Satapathy  29      00:07:39
+Prabir Kumar Satapathy  30      00:04:56
+Prateek _iot    26      00:00:00
+Prateek _iot    27      00:05:17
+Prateek _iot    28      00:11:30
+Prateek _iot    29      00:09:33
+Prateek _iot    30      00:09:46
+Prerna Singh    26      00:10:18
+Prerna Singh    27      00:13:41
+Prerna Singh    28      00:23:25
+Prerna Singh    29      00:14:43
+Prerna Singh    30      00:16:58
+Rishav Dash     26      00:09:29
+Rishav Dash     27      00:07:45
+Rishav Dash     28      00:06:43
+Rishav Dash     29      00:10:02
+Rishav Dash     30      00:09:06
+Rohan   26      00:00:00
+Rohan   27      00:00:00
+Rohan   28      00:00:00
+Rohan   29      00:00:00
+Rohan   30      00:00:00
+Saif Khan       26      00:00:00
+Saif Khan       27      00:00:00
+Saif Khan       28      00:00:00
+Saif Khan       29      00:00:00
+Saif Khan       30      00:00:00
+Saikumarreddy N 26      00:00:00
+Saikumarreddy N 27      00:00:00
+Saikumarreddy N 28      00:08:26
+Saikumarreddy N 29      00:09:33
+Saikumarreddy N 30      00:10:07
+Samprit         26      00:00:00
+Samprit         27      00:00:14
+Samprit         28      00:00:00
+Samprit         29      00:00:00
+Samprit         30      00:00:00
+Sandipan Saha   26      00:00:00
+Sandipan Saha   27      00:00:00
+Sandipan Saha   28      00:11:16
+Sandipan Saha   29      00:00:00
+Sandipan Saha   30      00:00:00
+Sanjeev Kumar   26      00:20:40
+Sanjeev Kumar   27      00:15:02
+Sanjeev Kumar   28      00:19:27
+Sanjeev Kumar   29      00:13:58
+Sanjeev Kumar   30      00:19:05
+Sanjeevan       26      00:00:00
+Sanjeevan       27      00:00:00
+Sanjeevan       28      00:00:00
+Sanjeevan       29      00:00:00
+Sanjeevan       30      00:00:00
+Saurabh Shukla  26      00:03:31
+Saurabh Shukla  27      00:02:37
+Saurabh Shukla  28      00:00:57
+Saurabh Shukla  29      00:00:00
+Saurabh Shukla  30      00:00:00
+Shiva Srivastava        26      00:00:00
+Shiva Srivastava        27      00:00:00
+Shiva Srivastava        28      00:00:00
+Shiva Srivastava        29      00:01:48
+Shiva Srivastava        30      00:05:18
+Shivan K        26      00:30:35
+Shivan K        27      00:19:18
+Shivan K        28      00:11:47
+Shivan K        29      00:13:26
+Shivan K        30      00:12:03
+Shivan_S        26      00:00:00
+Shivan_S        27      00:02:37
+Shivan_S        28      00:00:00
+Shivan_S        29      00:00:00
+Shivan_S        30      00:00:00
+Shivananda Sonwane      26      00:22:14
+Shivananda Sonwane      27      00:20:53
+Shivananda Sonwane      28      00:19:30
+Shivananda Sonwane      29      00:20:30
+Shivananda Sonwane      30      00:23:33
+Shubham Sharma  26      00:16:24
+Shubham Sharma  27      00:19:38
+Shubham Sharma  28      00:16:59
+Shubham Sharma  29      00:15:23
+Shubham Sharma  30      00:18:02
+Sowmiya Sivakumar       26      00:00:00
+Sowmiya Sivakumar       27      00:00:00
+Sowmiya Sivakumar       28      00:00:00
+Sowmiya Sivakumar       29      00:11:14
+Sowmiya Sivakumar       30      00:16:39
+Spuri   26      00:00:00
+Spuri   27      00:00:00
+Spuri   28      00:00:00
+Spuri   29      00:00:00
+Spuri   30      00:00:00
+Sudhanshu Kumar 26      00:00:00
+Sudhanshu Kumar 27      00:02:32
+Sudhanshu Kumar 28      00:05:48
+Sudhanshu Kumar 29      00:00:00
+Sudhanshu Kumar 30      00:00:00
+Suraj S Bilgi   26      00:00:00
+Suraj S Bilgi   27      00:00:00
+Suraj S Bilgi   28      00:00:00
+Suraj S Bilgi   29      00:00:00
+Suraj S Bilgi   30      00:13:08
+Swati   26      00:17:39
+Swati   27      00:14:43
+Swati   28      00:17:11
+Swati   29      00:07:49
+Swati   30      00:06:11
+Tarun   26      00:15:04
+Tarun   27      00:00:00
+Tarun   28      00:00:00
+Tarun   29      00:00:00
+Tarun   30      00:00:00
+Uday Mishra     26      00:00:00
+Uday Mishra     27      00:00:00
+Uday Mishra     28      00:00:00
+Uday Mishra     29      00:00:00
+Uday Mishra     30      00:00:00
+Vasanth P       26      00:00:00
+Vasanth P       27      00:00:00
+Vasanth P       28      00:00:00
+Vasanth P       29      00:00:00
+Vasanth P       30      00:00:00
+Vivek   26      00:00:00
+Vivek   27      00:02:25
+Vivek   28      00:08:29
+Vivek   29      00:00:00
+Vivek   30      00:00:00
+Wasim   26      00:00:00
+Wasim   27      00:03:16
+Wasim   28      00:14:27
+Wasim   29      00:16:25
+Wasim   30      00:17:34
+Zeeshan         26      00:00:00
+Zeeshan         27      00:05:23
+Zeeshan         28      00:16:24
+Zeeshan         29      00:13:14
+Zeeshan         30      00:12:53
+
+14. Find the number of chat on which they have received a feedback 
+sol:select agentname,sum(totalfeedback) from agentperfomance group by agentname;
+op:Abhishek        0
+Aditya  0
+Aditya Shinde   153
+Aditya_iot      131
+Amersh  0
+Ameya Jain      228
+Anirudh         39
+Ankit Sharma    0
+Ankitjha        3
+Anurag Tiwari   3
+Aravind         233
+Ashad Nasim     9
+Ashish  0
+Ayushi Mishra   329
+Bharath         247
+Boktiar Ahmed Bappy     311
+Chaitra K Hiremath      37
+Deepranjan Gupta        312
+Dibyanshu       0
+Harikrishnan Shaji      231
+Hitesh Choudhary        0
+Hrisikesh Neogi 367
+Hyder Abbas     0
+Ineuron Intelligence    0
+Ishawant Kumar  202
+Jawala Prakash  250
+Jayant Kumar    70
+Jaydeep Dixit   305
+Khushboo Priya  289
+Madhulika G     281
+Mahak   5
+Mahesh Sarade   216
+Maitry  347
+Maneesh         3
+Manjunatha A    254
+Mithun S        364
+Mukesh  17
+Mukesh Rao      5
+Muskan Garg     37
+Nandani Gupta   308
+Nishtha Jain    257
+Nitin M 0
+Prabir Kumar Satapathy  222
+Prateek _iot    107
+Prerna Singh    235
+Rishav Dash     264
+Rohan   0
+Saif Khan       0
+Saikumarreddy N 290
+Samprit         0
+Sandipan Saha   18
+Sanjeev Kumar   311
+Sanjeevan       0
+Saurabh Shukla  8
+Shiva Srivastava        46
+Shivan K        243
+Shivan_S        4
+Shivananda Sonwane      263
+Shubham Sharma  300
+Sowmiya Sivakumar       141
+Spuri   0
+Sudhanshu Kumar 2
+Suraj S Bilgi   15
+Swati   302
+Tarun   6
+Uday Mishra     0
+Vasanth P       0
+Vivek   20
+Wasim   284
+Zeeshan         335
+
+15. Total contribution hour for each and every agents weekly basis 
+sol:select agent,weekofyear(ldate),from_unixtime(cast(avg(unix_timestamp(loginduration,'HH:mm:ss'))as bigint),'HH:mm:ss') from agentloggingtemp group by agent,weekofyear(ldate);
+Aditya Shinde   30      00:02:10
+Aditya_iot      29      02:01:54
+Aditya_iot      30      01:36:21
+Agent   NULL    NULL
+Amersh  30      00:45:57
+Ameya Jain      29      03:26:25
+Ameya Jain      30      05:59:51
+Ankitjha        30      00:34:00
+Anurag Tiwari   29      00:03:58
+Anurag Tiwari   30      00:04:34
+Aravind 29      03:01:46
+Aravind 30      00:01:54
+Ayushi Mishra   29      03:33:29
+Ayushi Mishra   30      01:33:50
+Bharath 29      04:48:51
+Bharath 30      06:00:05
+Boktiar Ahmed Bappy     29      03:33:00
+Boktiar Ahmed Bappy     30      01:52:35
+Chaitra K Hiremath      29      01:07:02
+Chaitra K Hiremath      30      02:55:02
+Deepranjan Gupta        29      01:53:04
+Deepranjan Gupta        30      01:47:23
+Dibyanshu       29      00:16:28
+Dibyanshu       30      00:13:56
+Harikrishnan Shaji      29      02:22:55
+Harikrishnan Shaji      30      02:18:19
+Hrisikesh Neogi 29      01:55:14
+Hrisikesh Neogi 30      01:20:01
+Hyder Abbas     29      00:20:10
+Hyder Abbas     30      00:03:07
+Ineuron Intelligence    29      01:26:55
+Ishawant Kumar  29      01:21:13
+Ishawant Kumar  30      00:52:06
+Jawala Prakash  29      04:03:24
+Jawala Prakash  30      02:12:22
+Jaydeep Dixit   29      06:59:08
+Jaydeep Dixit   30      03:35:06
+Khushboo Priya  29      02:42:52
+Khushboo Priya  30      02:11:03
+Madhulika G     29      02:35:06
+Madhulika G     30      02:53:13
+Mahesh Sarade   29      02:32:53
+Mahesh Sarade   30      00:40:14
+Maitry  29      06:09:52
+Maitry  30      06:17:14
+Manjunatha A    29      06:07:01
+Manjunatha A    30      04:35:05
+Mithun S        29      02:53:47
+Mithun S        30      03:28:27
+Mukesh  30      02:58:06
+Muskan Garg     29      00:49:46
+Muskan Garg     30      01:45:07
+Nandani Gupta   29      04:20:00
+Nandani Gupta   30      03:15:45
+Nishtha Jain    29      02:45:52
+Nishtha Jain    30      02:10:25
+Nitin M 29      00:47:56
+Prabir Kumar Satapathy  29      01:15:06
+Prabir Kumar Satapathy  30      01:19:15
+Prateek _iot    29      00:48:27
+Prateek _iot    30      01:23:36
+Prerna Singh    29      03:05:10
+Prerna Singh    30      02:15:59
+Rishav Dash     29      02:41:56
+Rishav Dash     30      04:34:34
+Saikumarreddy N 29      04:09:48
+Saikumarreddy N 30      04:32:21
+Sanjeev Kumar   29      01:45:36
+Sanjeev Kumar   30      02:48:50
+Saurabh Shukla  29      00:24:59
+Shiva Srivastava        29      00:22:52
+Shiva Srivastava        30      01:18:31
+Shivan K        29      01:23:34
+Shivan K        30      00:48:28
+Shivananda Sonwane      29      04:10:00
+Shivananda Sonwane      30      02:50:43
+Shubham Sharma  29      01:23:12
+Shubham Sharma  30      01:47:29
+Sowmiya Sivakumar       29      02:26:16
+Sowmiya Sivakumar       30      01:37:43
+Sudhanshu Kumar 29      03:03:24
+Sudhanshu Kumar 30      07:15:31
+Suraj S Bilgi   30      02:30:42
+Swati   29      04:42:52
+Swati   30      06:08:33
+Tarun   26      10:08:20
+Wasim   29      02:10:50
+Wasim   30      02:35:44
+Zeeshan 29      04:04:16
+Zeeshan 30      06:09:55
+
+16. Perform inner join, left join and right join based on the agent column and after joining the table export that data into your local system
+sol:
+create table innerjointable1 as select * from agentloggingtemp al inner join agentperfomancetemp ap on al.agent=ap.agentname ;
+create table leftjointable1 as select * from agentloggingtemp al left join agentperfomancetemp ap on al.agent=ap.agentname ;
+create table rightjointable2 as select * from agentloggingtemp al right join agentperfomancetemp ap on al.agent=ap.agentname ;
+insert overwrite local directory '/tmp/out' select * from innerjointable1;
+insert overwrite local directory '/tmp/out' select * from leftjointable1;
+insert overwrite local directory '/tmp/out' select * from rightjointable2;
+17. Perform partitioning on top of the agent column and then on top of that perform bucketing for each partitioning.
+sol:attached the screenshot in file 
